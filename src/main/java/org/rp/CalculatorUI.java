@@ -12,7 +12,7 @@ public class CalculatorUI {
 
     private void takeInput(Scanner scanner) {
         while (true) {
-            System.out.println("write an expression or ? for help\n> ");
+            System.out.println("write an expression or :? for help\n> ");
             String input = scanner.nextLine();
             boolean quit = handleInput(input);
             if (quit) break;
@@ -21,9 +21,9 @@ public class CalculatorUI {
     }
 
     private boolean handleInput(String input) {
-        if (input.equals("?")){
+        if (input.equals(":h")){
             System.out.println("good luck!");
-        } else if (input.equals("q")) {
+        } else if (input.equals(":q")) {
             System.out.println("bye!");
             return true;
         } else {
