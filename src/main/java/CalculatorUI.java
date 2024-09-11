@@ -1,4 +1,3 @@
-package org.rp;
 
 import java.util.Scanner;
 
