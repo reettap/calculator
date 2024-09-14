@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Calculator {
@@ -9,13 +10,13 @@ public class Calculator {
         this.variables  = new HashMap<String, String>();
     }
 
-    public int calculate(String expression) {
+    public String calculate(String expression) {
         // tokenize
-        String[] tokens = Tokenizer.tokenize(expression);
+        ArrayList<Token> tokens = Tokenizer.tokenize(expression);
         // parse
-        String[] reversePolish = Parser.parse(tokens);
+        ArrayList<Token> reversePolish = Parser.parse(tokens);
         // evaluate
-        int result = Evaluator.evaluate(reversePolish, this.variables);
+        String result = Evaluator.evaluate(reversePolish, this.variables);
         return result;
     }
 }

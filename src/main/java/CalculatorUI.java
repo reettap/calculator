@@ -20,7 +20,7 @@ public class CalculatorUI {
                 if (quit) break;
             } else {
                 // is handled as an expression
-                int result = calculator.calculate(input);
+                String result = calculator.calculate(input);
                 System.out.print("answer: ");
                 System.out.println(result);
             }
