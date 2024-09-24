@@ -11,6 +11,12 @@ public class Calculator {
     }
 
     public String calculate(String expression) {
+        // special case: empty expression
+        if (expression == "") {
+            return "";
+        }
+
+        // The three phases of computing the result:
         // tokenize
         ArrayDeque<Token> tokens = Tokenizer.tokenize(expression);
         // parse

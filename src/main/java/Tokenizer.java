@@ -11,9 +11,9 @@ public class Tokenizer {
             // recognize type and construct a token
             // naive placeholder
             if (str.equals("+")) {
-                tokens.add(new Token(Type.SUM, str));
+                tokens.add(new Operator(Type.SUM, str));
             } else {
-                tokens.add(new Token(Type.NUMBER, str));
+                tokens.add(new Value(Type.NUMBER, str));
             }
         }
 

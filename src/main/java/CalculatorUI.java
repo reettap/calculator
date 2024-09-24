@@ -14,6 +14,7 @@ public class CalculatorUI {
         while (true) {
             System.out.print("\nwrite an expression or :h for help\n> ");
             String input = scanner.nextLine();
+
             if (input.startsWith(":")){
                 // if input starts with : it is a command
                 boolean quit = handleCommand(input);

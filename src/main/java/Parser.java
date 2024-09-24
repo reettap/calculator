@@ -7,7 +7,7 @@ public class Parser {
         // arraydeque for output
         ArrayDeque<Token> output = new ArrayDeque<>();
         // operator stack
-        ArrayDeque<Token> operators = new ArrayDeque<>();
+        ArrayDeque<Operator> operators = new ArrayDeque<>();
 
         // go through the tokens:
         for (Token token: tokens) {
@@ -20,10 +20,11 @@ public class Parser {
             // pop the stack until the operator on top has lower precedence, add to output
             // push the current operator in the stack
             else {
-                while (token.hasHigherPriorityThan(operators.peek())) {
+                Operator operator = (Operator) token;
+                while (operator.hasHigherPriorityThan(operators.peek())) {
                     output.add(operators.pop());
                 }
-                operators.push(token);
+                operators.push(operator);
             }
         }
 

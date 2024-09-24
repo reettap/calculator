@@ -39,6 +39,6 @@ public class Evaluator {
         //calculate sum
         String result = (o1 + o2)+"";
         //push the result back in the stack
-        stack.push(new Token(Type.NUMBER, result));
+        stack.push(new Value(Type.NUMBER, result));
     }
 }
