@@ -16,12 +16,12 @@ public class Parser {
                 output.add(token);
             }
             // if an operator:
-            // check if same or higher priority to the operator on top of the stack
-            // pop the stack until the operator on top has lower precedence, add to output
+            // check if it has lower priority than the operator on top of the stack.
+            // pop the stack until the operator on top has lower precedence, add to output.
             // push the current operator in the stack
             else {
                 Operator operator = (Operator) token;
-                while (operator.hasHigherPriorityThan(operators.peek())) {
+                while (!operators.isEmpty() && !operator.hasLowerPrecedenceThan(operators.peek())) {
                     output.add(operators.pop());
                 }
                 operators.push(operator);

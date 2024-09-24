@@ -23,7 +23,7 @@ public abstract class Token {
 
 enum Type {
     SUM,
-    DIFFERENCE,
+    SUBTRACTION,
     PRODUCT,
     DIVISION,
     NUMBER,

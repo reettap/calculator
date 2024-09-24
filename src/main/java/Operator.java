@@ -15,13 +15,15 @@ public class Operator extends Token {
 
     private int getPriority() {
         switch (this.type) {
-            case SUM: return 2;
+            case SUM, SUBTRACTION: return 2;
+            case PRODUCT, DIVISION: return 3;
             default: return 0;
         }
     }
 
-    public boolean hasHigherPriorityThan(Operator that) {
+
+    public boolean hasLowerPrecedenceThan(Operator that) {
         if (that == null) return false;
-        return this.getPriority() <= that.getPriority();
+        return this.getPriority() < that.getPriority();
     }
 }
