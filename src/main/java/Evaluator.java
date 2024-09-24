@@ -1,12 +1,11 @@
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static java.lang.Double.parseDouble;
 
 public class Evaluator {
 
-    public static String evaluate(ArrayList<Token> RPtokens, HashMap<String, String> variables) {
+    public static String evaluate(ArrayDeque<Token> RPtokens, HashMap<String, String> variables) {
         // evaluate the expression received in Reverse Polish notation
         ArrayDeque<Token> stack = new ArrayDeque<>();
 

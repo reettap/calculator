@@ -1,12 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.ArrayDeque;
 
 public class Tokenizer {
 
     // placeholder that only splits by space and knows sums of numbers
-    public static ArrayList<Token> tokenize(String expression) {
+    public static ArrayDeque<Token> tokenize(String expression) {
         String[] tokenStrings = expression.split(" ");
-        ArrayList<Token> tokens = new ArrayList<>();
+        ArrayDeque<Token> tokens = new ArrayDeque<>();
 
         for(String str: tokenStrings) {
             // recognize type and construct a token

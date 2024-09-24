@@ -1,12 +1,11 @@
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 
 public class Parser {
-    public static ArrayList<Token> parse(ArrayList<Token> tokens) {
+    public static ArrayDeque<Token> parse(ArrayDeque<Token> tokens) {
         // use shunting yard algorithm to parse the expression
 
-        // arraylist for output
-        ArrayList<Token> output = new ArrayList<>();
+        // arraydeque for output
+        ArrayDeque<Token> output = new ArrayDeque<>();
         // operator stack
         ArrayDeque<Token> operators = new ArrayDeque<>();
 
@@ -28,7 +27,7 @@ public class Parser {
             }
         }
 
-        // pop the whole stack into the output
+        // pop the remaining stack into the output
         while (!operators.isEmpty()) {
             output.add(operators.pop());
         }

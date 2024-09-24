@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +11,7 @@ public class EvaluatorTest {
 
     @Test
     public void singleToken() {
-        ArrayList<Token> tokens =  new ArrayList<>();
+        ArrayDeque<Token> tokens =  new ArrayDeque<>();
         tokens.add(new Token(Type.NUMBER, "2"));
 
 
@@ -21,7 +21,7 @@ public class EvaluatorTest {
 
     @Test
     public void simpleSum() {
-        ArrayList<Token> tokens =  new ArrayList<>();
+        ArrayDeque<Token> tokens =  new ArrayDeque<>();
         tokens.add(new Token(Type.NUMBER, "2"));
         tokens.add(new Token(Type.NUMBER, "5"));
         tokens.add(new Token(Type.SUM, "+"));
@@ -32,7 +32,7 @@ public class EvaluatorTest {
 
     @Test
     public void biggerSum() {
-        ArrayList<Token> tokens =  new ArrayList<>();
+        ArrayDeque<Token> tokens =  new ArrayDeque<>();
         tokens.add(new Token(Type.NUMBER, "-2"));
         tokens.add(new Token(Type.NUMBER, "12.5"));
         tokens.add(new Token(Type.SUM, "+"));

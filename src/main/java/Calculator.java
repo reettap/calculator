@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 
 public class Calculator {
@@ -12,9 +12,9 @@ public class Calculator {
 
     public String calculate(String expression) {
         // tokenize
-        ArrayList<Token> tokens = Tokenizer.tokenize(expression);
+        ArrayDeque<Token> tokens = Tokenizer.tokenize(expression);
         // parse
-        ArrayList<Token> reversePolish = Parser.parse(tokens);
+        ArrayDeque<Token> reversePolish = Parser.parse(tokens);
         // evaluate
         String result = Evaluator.evaluate(reversePolish, this.variables);
         return result;
