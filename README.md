@@ -7,7 +7,10 @@ A calculator application for Tiralab course
 [week 3](docs/weekly3.md)  
 
 ## documentation
-[Project Specification / Määrittelydokumentti](docs/specification.md)
+[Project Specification](docs/specification.md)
+[Implementation Document](docs/implementation.md)
+[Testing Document](docs/specification.md)
+[Manual](docs/manual.md)
 
 ## try it
 ```
