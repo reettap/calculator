@@ -20,7 +20,10 @@ to handle multiple different operators.
 Nothing new this week, just need to put in the time and get things done.
 
 ## Anything difficult or unclear?  
-no
+When exactly is the second peer review? 
+- https://algolabra-hy.github.io/aikataulu says after week 4 and 5
+- moodle says fourth and sixth week
+- sisu calendar says DLs are 4.10 and 18.10. = after week 4 and 6
 
 ## What next?  
 - getting ready for the review before tuesday  
