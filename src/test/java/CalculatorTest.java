@@ -30,5 +30,4 @@ public class CalculatorTest {
         String result = c.calculate(expression);
         assertEquals("-662.89", result);
     }
-
 }

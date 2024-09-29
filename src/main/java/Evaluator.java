@@ -72,4 +72,5 @@ public class Evaluator {
         //push the result back in the stack
         stack.push(new Value(Type.NUMBER, result));
     }
+
 }
