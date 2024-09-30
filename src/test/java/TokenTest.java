@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenTest {
 
@@ -17,6 +16,13 @@ public class TokenTest {
     }
 
     // Operator priority
+    @Test
+    public void operatorPriorityTest(){
+        Operator sum = new Operator(Type.SUM, "+");
+        Operator product = new Operator(Type.PRODUCT, "*");
 
+        assertTrue(sum.hasLowerPrecedenceThan(product));
+
+    }
 
 }

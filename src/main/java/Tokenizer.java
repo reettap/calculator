@@ -35,6 +35,7 @@ public class Tokenizer {
                 // this character was not recognized
                 // todo: show a useful error to user
                 System.out.println("Error! character was not recognised: " + currentCharacter);
+                position += 1; // skip unknown character
             }
         }
 
@@ -94,7 +95,7 @@ public class Tokenizer {
                 break;
             } else {
                 // todo: show a useful error to user
-                System.out.println("Error! character was not recognised: " + nextCharacter);
+                throw(new RuntimeException());
             }
         }
 

@@ -7,14 +7,14 @@ public class CalculatorUI {
         Calculator calculator = new Calculator();
 
         System.out.println("Welcome to the calculator!");
+        System.out.println("Write an expression or :h for help ");
         takeInput(scanner, calculator);
     }
 
     private void takeInput(Scanner scanner, Calculator calculator) {
         while (true) {
-            System.out.print("\nwrite an expression or :h for help\n> ");
+            System.out.print("\n> ");
             String input = scanner.nextLine();
-
             if (input.startsWith(":")){
                 // if input starts with : it is a command
                 boolean quit = handleCommand(input);

@@ -30,4 +30,13 @@ public class CalculatorTest {
         String result = c.calculate(expression);
         assertEquals("-662.89", result);
     }
+
+    @Test
+    public void manyOperators(){
+        Calculator c = new Calculator();
+        String expression = "4*-3.3+7.7/2.99";
+        double result = Double.parseDouble(c.calculate(expression));
+        double expected = -10.6247491639;
+        assertEquals(expected, result, 0.001);
+    }
 }

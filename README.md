@@ -17,3 +17,4 @@ A calculator application for Tiralab course
 ```
 gradle run --console=plain
 ```
+see [Manual](docs/manual.md) for more information.  

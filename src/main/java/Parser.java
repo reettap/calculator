@@ -21,7 +21,7 @@ public class Parser {
             // push the current operator in the stack
             else {
                 Operator operator = (Operator) token;
-                while (!operators.isEmpty() && !operator.hasLowerPrecedenceThan(operators.peek())) {
+                while (!operators.isEmpty() && operator.hasLowerPrecedenceThan(operators.peek())) {
                     output.add(operators.pop());
                 }
                 operators.push(operator);
