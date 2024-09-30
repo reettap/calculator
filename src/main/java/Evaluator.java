@@ -19,9 +19,8 @@ public class Evaluator {
                 executeOperation(stack, token.getType());
             }
         }
-        // stack should only have one number in the end
-        Token result = stack.pop();
-        return result.getRaw();
+
+        return getResult(stack);
     }
 
     private static void executeOperation(ArrayDeque<Token> stack, Type operation) {
@@ -31,6 +30,15 @@ public class Evaluator {
             case PRODUCT -> executeProduct(stack);
             case DIVISION -> executeDivision(stack);
         }
+    }
+
+    private static String getResult(ArrayDeque<Token> stack) {
+        // stack should only have one number in the end
+        if (stack.size() != 1 || stack.peek().getType()!=Type.NUMBER) {
+            return "Error! The calculation didn't yield a result";
+        }
+        Token result = stack.pop();
+        return result.getRaw();
     }
 
     private static void executeSum(ArrayDeque<Token> stack) {

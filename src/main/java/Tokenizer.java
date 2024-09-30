@@ -111,8 +111,8 @@ public class Tokenizer {
     }
 
     private static boolean isNumberMinus(int position, String expression) {
-        // a minus is part of the number if
-        // it comes in the beginning of the expression, or after an operator or a whitespace
+        // a minus is part of the number if:
+        // it comes in the beginning of the expression or after an operator or a whitespace
         // and it comes right before a number
 
         boolean isMinus = expression.substring(position, position+1).equals("-");

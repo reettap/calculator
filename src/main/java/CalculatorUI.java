@@ -31,14 +31,22 @@ public class CalculatorUI {
     private boolean handleCommand(String input) {
         // if input starts with : it is a command
         if (input.equals(":h")){
-            System.out.println("good luck!");
+            printHelp();
         } else if (input.equals(":q")) {
             System.out.println("bye!");
             return true;
         } else {
-            //assume it's an expression
-            System.out.println("Can't handle that yet!");
+            System.out.println("write :h for help!");
         }
         return false;
+    }
+
+    private void printHelp() {
+        System.out.println("To use the calculator, just write an expression and press enter!");
+        System.out.println("Supported operators: +-/*");
+        System.out.println("Variables and parenthesis are not supported yet");
+        System.out.println();
+        System.out.println(":h for help");
+        System.out.println(":q to quit");
     }
 }
