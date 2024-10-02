@@ -15,26 +15,26 @@ public class Tokenizer {
         int position = 0;
         while (position<expression.length()) {
             // the character starting the current token
-            String currentCharacter = expression.substring(position, position+1);
+            char currentChar = expression.charAt(position);
 
-            if (numberCharacters.contains(currentCharacter) || isNumberMinus(position, expression)){
+            if (numberCharacters.indexOf(currentChar) != -1 || isNumberMinus(position, expression)){
                 // this character starts a number
                 position += readNumber(position, expression, tokens);
             }
-            else if (symbolCharacters.contains(currentCharacter)) {
+            else if (symbolCharacters.indexOf(currentChar) != -1) {
                 // this is a single symbol that we can immediately turn into a token
-                readSymbol(currentCharacter, tokens);
+                readSymbol(currentChar, tokens);
                 position += 1;
             }
-            else if (variableCharacters.contains(currentCharacter)) {
+            else if (variableCharacters.indexOf(currentChar) != -1) {
                 // this character starts a word: either a variable or function name
                 position += readWord(position, expression, tokens);
-            } else if (currentCharacter.equals(" ")){
+            } else if (currentChar == ' '){
                 position += 1; // skip a whitespace
             } else {
                 // this character was not recognized
                 // todo: show a useful error to user
-                System.out.println("Error! character was not recognised: " + currentCharacter);
+                System.out.println("Error! character was not recognised: " + currentChar);
                 position += 1; // skip unknown character
             }
         }
@@ -42,14 +42,14 @@ public class Tokenizer {
         return tokens;
     }
 
-    private static void readSymbol(String symbol, ArrayDeque<Token> tokens) {
+    private static void readSymbol(char symbol, ArrayDeque<Token> tokens) {
         switch (symbol) {
-            case "+": tokens.add(new Operator(Type.SUM, "+")); break;
-            case "-": tokens.add(new Operator(Type.SUBTRACTION, "-")); break;
-            case "*": tokens.add(new Operator(Type.PRODUCT, "*")); break;
-            case "/": tokens.add(new Operator(Type.DIVISION, "/")); break;
-            case "(": tokens.add(new Operator(Type.LEFT_PARENTHESIS, "(")); break;
-            case ")": tokens.add(new Operator(Type.RIGHT_PARENTHESIS, ")")); break;
+            case '+': tokens.add(new Operator(Type.SUM, "+")); break;
+            case '-': tokens.add(new Operator(Type.SUBTRACTION, "-")); break;
+            case '*': tokens.add(new Operator(Type.PRODUCT, "*")); break;
+            case '/': tokens.add(new Operator(Type.DIVISION, "/")); break;
+            case '(': tokens.add(new Operator(Type.LEFT_PARENTHESIS, "(")); break;
+            case ')': tokens.add(new Operator(Type.RIGHT_PARENTHESIS, ")")); break;
         }
     }
 
@@ -57,10 +57,10 @@ public class Tokenizer {
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in a number
         while (end<expression.length()){ // number can end to the end of the expression
-            String nextCharacter = expression.substring(end, end+1);
-            if (numberCharacters.contains(nextCharacter)) {
+            char nextCharacter = expression.charAt(end);
+            if (numberCharacters.indexOf(nextCharacter) != -1) {
                 end += 1;
-            } else if (symbolCharacters.contains(nextCharacter) || variableCharacters.contains(nextCharacter) || nextCharacter.equals(" ")){
+            } else if (symbolCharacters.indexOf(nextCharacter) != -1 || variableCharacters.indexOf(nextCharacter) != -1 || nextCharacter == ' '){
                 // number can be stopped by a symbol or variable character or a whitespace
                 break;
             } else {
@@ -87,10 +87,10 @@ public class Tokenizer {
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in variable name
         while (end<expression.length()){ // word can end to the end of the expression
-            String nextCharacter = expression.substring(end, end+1);
-            if (variableCharacters.contains(nextCharacter) || numberCharacters.contains(nextCharacter)) {
+            char nextCharacter = expression.charAt(end);
+            if (variableCharacters.indexOf(nextCharacter) != -1 || numberCharacters.indexOf(nextCharacter) != -1) {
                 end += 1;
-            } else if (symbolCharacters.contains(nextCharacter) || nextCharacter.equals(" ")){
+            } else if (symbolCharacters.indexOf(nextCharacter) != -1 || nextCharacter == ' '){
                 // word can be stopped by a symbol or a whitespace
                 break;
             } else {
