@@ -17,7 +17,7 @@ public class CalculatorUI {
             String input = scanner.nextLine();
             if (input.startsWith(":")){
                 // if input starts with : it is a command
-                boolean quit = handleCommand(input);
+                boolean quit = handleCommand(input, calculator);
                 if (quit) break;
             } else if (input.contains("=")) {
                 // variable assignment
@@ -32,13 +32,15 @@ public class CalculatorUI {
         }
     }
 
-    private boolean handleCommand(String input) {
+    private boolean handleCommand(String input, Calculator calculator) {
         // if input starts with : it is a command
         if (input.equals(":h")){
             printHelp();
         } else if (input.equals(":q")) {
             System.out.println("bye!");
             return true;
+        } else if (input.equals(":v")) {
+            System.out.println(calculator.variablesList());
         } else {
             System.out.println("write :h for help!");
         }
@@ -51,6 +53,7 @@ public class CalculatorUI {
         System.out.println("Variables and parenthesis are not supported yet");
         System.out.println();
         System.out.println(":h for help");
+        System.out.println(":v to list variables");
         System.out.println(":q to quit");
     }
 }

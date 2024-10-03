@@ -43,4 +43,15 @@ public class Calculator {
         return variableName + ": " + result;
     }
 
+    public String variablesList() {
+        String result = "";
+        for (String key: this.variables.keySet()) {
+            result += key + ": " + variables.get(key) + "\n";
+        }
+        if (result == ""){
+            result = "No variables";
+        }
+        return result;
+    }
+
 }
