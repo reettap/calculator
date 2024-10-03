@@ -8,6 +8,7 @@ public class Evaluator {
     public static String evaluate(ArrayDeque<Token> RPtokens, HashMap<String, String> variables) {
         // evaluate the expression received in Reverse Polish Notation
         ArrayDeque<Token> stack = new ArrayDeque<>();
+        RPtokens = resolveVariables(RPtokens, variables);
 
         for (Token token: RPtokens) {
             // if token is a value, push in stack
@@ -21,6 +22,20 @@ public class Evaluator {
         }
 
         return getResult(stack);
+    }
+
+    private static ArrayDeque<Token> resolveVariables(ArrayDeque<Token> originalTokens, HashMap<String, String> variables){
+        ArrayDeque<Token> result = new ArrayDeque<>();
+        for(Token token: originalTokens){
+            if (token.getType() == Type.VARIABLE) {
+                String value = variables.get(token.getRaw());
+                result.add(new Value(Type.NUMBER, value));
+                // todo: what if an uninitialized variable?
+            } else {
+                result.add(token);
+            }
+        }
+        return result;
     }
 
     private static void executeOperation(ArrayDeque<Token> stack, Type operation) {

@@ -39,6 +39,19 @@ public class CalculatorTest {
         assertEquals("7", result);
     }
 
+    @Test
+    public void simpleVariable(){
+        Calculator c = new Calculator();
+
+        String expression = "cats = 4";
+        String result = c.addVariable(expression);
+        assertEquals("cats: 4", result);
+
+        String expression2 = " dogs  =cats+1";
+        String result2 = c.addVariable(expression2);
+        assertEquals("dogs: 5", result2);
+    }
+
 
 
     @Test

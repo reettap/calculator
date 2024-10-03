@@ -23,6 +23,24 @@ public class Calculator {
         ArrayDeque<Token> reversePolish = Parser.parse(tokens);
         // evaluate
         String result = Evaluator.evaluate(reversePolish, this.variables);
+        // save latest result as special variable 'answer'
+        this.variables.put("answer", result);
         return result;
     }
+
+    public String addVariable(String expression) {
+        // this is already recognised as a variable assignment from the equals
+        String[] parts = expression.split("=");
+
+
+        String variableName = parts[0].strip();
+        String result = parts.length == 1
+                ? this.calculate("ans")
+                : this.calculate(parts[1]);
+
+        this.variables.put(variableName, result);
+
+        return variableName + ": " + result;
+    }
+
 }

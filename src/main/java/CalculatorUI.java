@@ -19,6 +19,10 @@ public class CalculatorUI {
                 // if input starts with : it is a command
                 boolean quit = handleCommand(input);
                 if (quit) break;
+            } else if (input.contains("=")) {
+                // variable assignment
+                String result = calculator.addVariable(input);
+                System.out.println(result);
             } else {
                 // is handled as an expression
                 String result = calculator.calculate(input);
