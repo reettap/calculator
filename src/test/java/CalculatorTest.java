@@ -32,6 +32,16 @@ public class CalculatorTest {
     }
 
     @Test
+    public void unaryMinus(){
+        Calculator c = new Calculator();
+        String expression = " -2 + -3*- 3";
+        String result = c.calculate(expression);
+        assertEquals("7", result);
+    }
+
+
+
+    @Test
     public void manyOperators(){
         Calculator c = new Calculator();
         String expression = "4*-3.3+7.7/2.99";

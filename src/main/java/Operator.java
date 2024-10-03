@@ -17,6 +17,7 @@ public class Operator extends Token {
         switch (this.type) {
             case SUM, SUBTRACTION: return 2;
             case PRODUCT, DIVISION: return 3;
+            case UNARY_MINUS: return 4;
             default: return 0;
         }
     }

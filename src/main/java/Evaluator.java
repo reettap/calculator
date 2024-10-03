@@ -29,6 +29,7 @@ public class Evaluator {
             case SUBTRACTION -> executeSubtraction(stack);
             case PRODUCT -> executeProduct(stack);
             case DIVISION -> executeDivision(stack);
+            case UNARY_MINUS -> executeUnaryMinus(stack);
         }
     }
 
@@ -58,6 +59,15 @@ public class Evaluator {
         //calculate difference
         String result = (o1 - o2)+"";
         //push the result back in the stack
+        stack.push(new Value(Type.NUMBER, result));
+    }
+
+    private static void executeUnaryMinus(ArrayDeque<Token> stack) {
+        // take one operand
+        double o = parseDouble(stack.pop().getRaw());
+        // negate
+        String result = -o + "";
+        // push the result back in stack
         stack.push(new Value(Type.NUMBER, result));
     }
 

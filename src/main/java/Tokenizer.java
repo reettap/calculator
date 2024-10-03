@@ -16,8 +16,10 @@ public class Tokenizer {
         while (position<expression.length()) {
             // the character starting the current token
             char currentChar = expression.charAt(position);
-
-            if (numberCharacters.indexOf(currentChar) != -1 || isNumberMinus(position, expression)){
+            if (isUnaryMinus(position, expression, tokens)) {
+                readUnaryMinus(tokens);
+                position += 1;
+            } else if (numberCharacters.indexOf(currentChar) != -1){
                 // this character starts a number
                 position += readNumber(position, expression, tokens);
             }
@@ -51,6 +53,10 @@ public class Tokenizer {
             case '(': tokens.add(new Operator(Type.LEFT_PARENTHESIS, "(")); break;
             case ')': tokens.add(new Operator(Type.RIGHT_PARENTHESIS, ")")); break;
         }
+    }
+
+    private static void readUnaryMinus(ArrayDeque<Token> tokens) {
+        tokens.add(new Operator(Type.UNARY_MINUS, "-"));
     }
 
     private static int readNumber(int start, String expression, ArrayDeque<Token> tokens) {
@@ -111,12 +117,12 @@ public class Tokenizer {
         return end - start;
     }
 
-    private static boolean isNumberMinus(int position, String expression) {
-        // a minus is part of the number if:
-        // it comes in the beginning of the expression or after an operator or a whitespace
-        // and it comes right before a number
+    private static boolean isUnaryMinus(int position, String expression, ArrayDeque<Token> tokens) {
+        // A minus that is a unary operator instead of subtraction,
+        // such as -5 , -(a), (a) + -5, (3) + -(a)
+        // i.e. in the beginning or right after an operator that is not a closing parenthesis.
 
-        boolean isMinus = expression.substring(position, position+1).equals("-");
+        boolean isMinus = expression.charAt(position) == '-';
         boolean isAtEnd = position == expression.length()-1;
 
         if (!isMinus){
@@ -125,18 +131,15 @@ public class Tokenizer {
             return false; // a minus in the end of the expression
         }
 
-        boolean rightBeforeNumber = numberCharacters.contains(expression.substring(position+1, position+2));
-        boolean isFirst = position == 0;
-        if (rightBeforeNumber){
-            if (isFirst) {
-                return true; // first character, right before number
-            }
-            String before = expression.substring(position-1, position);
-            boolean isAfterSymbolOrWhitespace = symbolCharacters.contains(before) || before.equals(" ");
-            if (isAfterSymbolOrWhitespace) {
-                return true; // after an operator or whitespace, right before number
-            }
+        if (tokens.isEmpty()) {
+            return true; // first non-space character
         }
+
+        Token latest = tokens.peekLast();
+        if (latest.isOperator() && latest.type != Type.RIGHT_PARENTHESIS) {
+            return true; // The latest token has been an operator, but not closing parenthesis
+        }
+
         return false;
     }
 }

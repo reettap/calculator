@@ -62,7 +62,7 @@ public class TokenizerTest {
         ArrayDeque<Token> result = Tokenizer.tokenize(expression);
         Token[] expected = {
                 new Operator(Type.SUM, "+"),
-                new Operator(Type.SUBTRACTION, "-"),
+                new Operator(Type.UNARY_MINUS, "-"),
                 new Operator(Type.PRODUCT, "*"),
                 new Operator(Type.DIVISION, "/"),
                 new Operator(Type.FUNCTION, "min"),
@@ -73,6 +73,28 @@ public class TokenizerTest {
                 new Value(Type.VARIABLE, "var1able"),
                 new Value(Type.VARIABLE, "name"),
                 new Operator(Type.PRODUCT, "*")
+        };
+        assertOutputContent(expected, result);
+    }
+
+    @Test
+    public void unaryMinusTest(){
+        String expression = " -3 + -(7 -5) - -variable";
+        ArrayDeque<Token> result = Tokenizer.tokenize(expression);
+        Token[] expected = {
+                new Operator(Type.UNARY_MINUS, "-"),
+                new Value(Type.NUMBER, "3"),
+                new Operator(Type.SUM, "+"),
+                new Operator(Type.UNARY_MINUS, "-"),
+                new Operator(Type.LEFT_PARENTHESIS, "("),
+                new Value(Type.NUMBER, "7"),
+                new Operator(Type.SUBTRACTION, "-"),
+                new Value(Type.NUMBER, "5"),
+                new Operator(Type.RIGHT_PARENTHESIS, ")"),
+                new Operator(Type.SUBTRACTION, "-"),
+                new Operator(Type.UNARY_MINUS, "-"),
+                new Value(Type.VARIABLE, "variable"),
+
         };
         assertOutputContent(expected, result);
     }
