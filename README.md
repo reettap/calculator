@@ -6,6 +6,7 @@ A calculator application for Tiralab course
 [week 2](docs/weekly2.md)  
 [week 3](docs/weekly3.md)  
 [week 4](docs/weekly4.md)  
+[week 5](docs/weekly5.md)  
 
 ## documentation
 [Project Specification](docs/specification.md)  
