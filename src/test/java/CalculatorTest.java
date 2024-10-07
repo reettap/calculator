@@ -1,11 +1,8 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculatorTest {
-    final HashMap<String, String> noVariables = new HashMap<>();
 
     @Test
     public void emptyExpression(){
@@ -52,8 +49,6 @@ public class CalculatorTest {
         assertEquals("dogs: 5", result2);
     }
 
-
-
     @Test
     public void manyOperators(){
         Calculator c = new Calculator();
@@ -62,4 +57,33 @@ public class CalculatorTest {
         double expected = -10.6247491639;
         assertEquals(expected, result, 0.001);
     }
+
+    @Test
+    public void parenthesis(){
+        Calculator c = new Calculator();
+        String expression = "3.1*(6- -(6/7)) / (9/5)";
+        double result = Double.parseDouble(c.calculate(expression));
+        double expected = 11.8095238095;
+        assertEquals(expected, result, 0.001);
+    }
+
+    @Test
+    public void functions(){
+        Calculator c = new Calculator();
+        String expression = "min(3 2) + sin(9)";
+        double result = Double.parseDouble(c.calculate(expression));
+        double expected = 2.4121184852;
+        assertEquals(expected, result, 0.001);
+    }
+
+    @Test
+    public void functions2(){
+        Calculator c = new Calculator();
+        String expression = "max(1 9) + sqrt(9.9)";
+        double result = Double.parseDouble(c.calculate(expression));
+        double expected = 12.1464265445;
+        assertEquals(expected, result, 0.001);
+    }
+
+
 }

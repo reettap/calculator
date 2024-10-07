@@ -14,6 +14,9 @@ public class Evaluator {
             // if token is a value, push in stack
             if (token.isValue()) {
                 stack.push(token);
+            } else if (token.getType() == Type.FUNCTION) {
+                // evaluate function
+                executeFunction(stack, token.getRaw());
             } else {
                 // if token is an operator, pop enough operands from the stack,
                 // evaluate and push the result in the stack
@@ -105,5 +108,54 @@ public class Evaluator {
         //push the result back in the stack
         stack.push(new Value(Type.NUMBER, result));
     }
+
+    private static void executeFunction(ArrayDeque<Token> stack, String functionName) {
+        switch (functionName) {
+            case "min": executeMin(stack); break;
+            case "max": executeMax(stack); break;
+            case "sqrt": executeSqrt(stack); break;
+            case "sin": executeSin(stack); break;
+        }
+    }
+
+    private static void executeMin(ArrayDeque<Token> stack) {
+        // take two operands
+        double o2 = parseDouble(stack.pop().getRaw());
+        double o1 = parseDouble(stack.pop().getRaw());
+        //calculate min
+        String result = Math.min(o1, o2)+"";
+        //push the result back in the stack
+        stack.push(new Value(Type.NUMBER, result));
+    }
+
+    private static void executeMax(ArrayDeque<Token> stack) {
+        // take two operands
+        double o2 = parseDouble(stack.pop().getRaw());
+        double o1 = parseDouble(stack.pop().getRaw());
+        //calculate min
+        String result = Math.max(o1, o2)+"";
+        //push the result back in the stack
+        stack.push(new Value(Type.NUMBER, result));
+    }
+
+    private static void executeSqrt(ArrayDeque<Token> stack) {
+        // take one operand
+        double o1 = parseDouble(stack.pop().getRaw());
+        //calculate square root
+        String result = Math.sqrt(o1)+"";
+        //push the result back in the stack
+        stack.push(new Value(Type.NUMBER, result));
+    }
+
+    private static void executeSin(ArrayDeque<Token> stack) {
+        // take one operand
+        double o1 = parseDouble(stack.pop().getRaw());
+        //calculate square root
+        String result = Math.sin(o1)+"";
+        //push the result back in the stack
+        stack.push(new Value(Type.NUMBER, result));
+    }
+
+
 
 }
