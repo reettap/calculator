@@ -1,5 +1,6 @@
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class Tokenizer {
@@ -9,7 +10,7 @@ public class Tokenizer {
     static final String variableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static final List<String> functionNames = Arrays.asList("min", "max", "sqrt", "sin");
 
-    public static ArrayDeque<Token> tokenize(String expression) {
+    public static ArrayDeque<Token> tokenize(String expression) throws InputMismatchException {
         ArrayDeque<Token> tokens = new ArrayDeque<>();
 
         int position = 0;
@@ -35,9 +36,7 @@ public class Tokenizer {
                 position += 1; // skip a whitespace
             } else {
                 // this character was not recognized
-                // todo: show a useful error to user
-                System.out.println("Error! character was not recognised: " + currentChar);
-                position += 1; // skip unknown character
+                throw new InputMismatchException("Unrecognized character: " + currentChar);
             }
         }
 
@@ -59,7 +58,7 @@ public class Tokenizer {
         tokens.add(new Operator(Type.UNARY_MINUS, "-"));
     }
 
-    private static int readNumber(int start, String expression, ArrayDeque<Token> tokens) {
+    private static int readNumber(int start, String expression, ArrayDeque<Token> tokens) throws InputMismatchException{
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in a number
         while (end<expression.length()){ // number can end to the end of the expression
@@ -70,8 +69,7 @@ public class Tokenizer {
                 // number can be stopped by a symbol or variable character or a whitespace
                 break;
             } else {
-                // todo: show a useful error to user
-                System.out.println("Error! character was not recognised: " + nextCharacter);
+                throw new InputMismatchException("Unrecognized character: " + nextCharacter);
             }
         }
 
@@ -81,15 +79,14 @@ public class Tokenizer {
             numberString = Double.parseDouble(numberString) + "";
         } catch (NumberFormatException e) {
             // consists of number characters but not a valid number
-            // todo: show a useful error to user
-            System.out.println("Error! number format: " + numberString);
+            throw new InputMismatchException("Incorrect number format: " + numberString);
         }
 
         tokens.add(new Value(Type.NUMBER, numberString));
         return end - start;
     }
 
-    private static int readWord(int start, String expression, ArrayDeque<Token> tokens) {
+    private static int readWord(int start, String expression, ArrayDeque<Token> tokens) throws InputMismatchException {
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in variable name
         while (end<expression.length()){ // word can end to the end of the expression
@@ -100,8 +97,7 @@ public class Tokenizer {
                 // word can be stopped by a symbol or a whitespace
                 break;
             } else {
-                // todo: show a useful error to user
-                throw(new RuntimeException());
+                throw new InputMismatchException("Unrecognized character: " + nextCharacter);
             }
         }
 
@@ -141,6 +137,19 @@ public class Tokenizer {
         }
 
         return false;
+    }
+
+    public static void validateVariableName(String variable) throws InputMismatchException{
+        if (variable.length() == 0 || variableCharacters.indexOf(variable.charAt(0)) == -1) {
+            throw new InputMismatchException("The first character of the variable must be an alphabet character or a dot");
+        }
+
+        for (int i = 1; i < variable.length(); i++) {
+            char c = variable.charAt(i);
+            if (variableCharacters.indexOf(c) == -1 && numberCharacters.indexOf(c) == -1) {
+                throw new InputMismatchException("Variable name can not contain this character: " + c);
+            }
+        }
     }
 }
 

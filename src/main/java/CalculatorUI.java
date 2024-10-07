@@ -21,13 +21,22 @@ public class CalculatorUI {
                 if (quit) break;
             } else if (input.contains("=")) {
                 // variable assignment
-                String result = calculator.addVariable(input);
-                System.out.println(result);
+                try{
+                    String result = calculator.addVariable(input);
+                    System.out.println(result);
+                } catch(Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+
             } else {
-                // is handled as an expression
-                String result = calculator.calculate(input);
-                System.out.print("answer: ");
-                System.out.println(result);
+                // input is handled as an expression
+                try {
+                    String result = calculator.calculate(input);
+                    System.out.print("ans: ");
+                    System.out.println(result);
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
             }
         }
     }
@@ -50,7 +59,6 @@ public class CalculatorUI {
     private void printHelp() {
         System.out.println("To use the calculator, just write an expression and press enter!");
         System.out.println("Supported operators: +-/*");
-        System.out.println("Variables and parenthesis are not supported yet");
         System.out.println();
         System.out.println(":h for help");
         System.out.println(":v to list variables");

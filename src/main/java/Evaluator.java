@@ -1,11 +1,14 @@
 import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 import static java.lang.Double.parseDouble;
 
 public class Evaluator {
 
-    public static String evaluate(ArrayDeque<Token> RPtokens, HashMap<String, String> variables) {
+    public static String evaluate(ArrayDeque<Token> RPtokens, HashMap<String, String> variables)
+            throws NoSuchElementException, ArithmeticException {
+
         // evaluate the expression received in Reverse Polish Notation
         ArrayDeque<Token> stack = new ArrayDeque<>();
         RPtokens = resolveVariables(RPtokens, variables);
@@ -27,13 +30,13 @@ public class Evaluator {
         return getResult(stack);
     }
 
-    private static ArrayDeque<Token> resolveVariables(ArrayDeque<Token> originalTokens, HashMap<String, String> variables){
+    private static ArrayDeque<Token> resolveVariables(ArrayDeque<Token> originalTokens, HashMap<String, String> variables)
+            throws NoSuchElementException{
         ArrayDeque<Token> result = new ArrayDeque<>();
         for(Token token: originalTokens){
             if (token.getType() == Type.VARIABLE) {
-                String value = variables.get(token.getRaw());
+                String value = resolveVariable(token.getRaw(), variables);
                 result.add(new Value(Type.NUMBER, value));
-                // todo: what if an uninitialized variable?
             } else {
                 result.add(token);
             }
@@ -41,7 +44,16 @@ public class Evaluator {
         return result;
     }
 
-    private static void executeOperation(ArrayDeque<Token> stack, Type operation) {
+    public static String resolveVariable(String variableName, HashMap<String, String> variables) throws NoSuchElementException{
+        String value = variables.get(variableName);
+        if (value == null) {
+            throw new NoSuchElementException("Variable " + variableName + " not found");
+        } else {
+            return value;
+        }
+    }
+
+    private static void executeOperation(ArrayDeque<Token> stack, Type operation) throws ArithmeticException {
         switch (operation){
             case SUM -> executeSum(stack);
             case SUBTRACTION -> executeSubtraction(stack);
@@ -51,10 +63,10 @@ public class Evaluator {
         }
     }
 
-    private static String getResult(ArrayDeque<Token> stack) {
+    private static String getResult(ArrayDeque<Token> stack) throws ArithmeticException{
         // stack should only have one number in the end
         if (stack.size() != 1 || stack.peek().getType()!=Type.NUMBER) {
-            return "Error! The calculation didn't yield a result";
+            throw new ArithmeticException("The calculation didn't yield a result");
         }
         Token result = stack.pop();
         return result.getRaw();
@@ -99,10 +111,14 @@ public class Evaluator {
         stack.push(new Value(Type.NUMBER, result));
     }
 
-    private static void executeDivision(ArrayDeque<Token> stack) {
+    private static void executeDivision(ArrayDeque<Token> stack) throws ArithmeticException {
         // take two operands
         double o2 = parseDouble(stack.pop().getRaw());
         double o1 = parseDouble(stack.pop().getRaw());
+        //no division by zero allowed
+        if (o2 == 0) {
+            throw new ArithmeticException("Dividing by zero");
+        }
         //calculate product
         String result = (o1 / o2)+"";
         //push the result back in the stack

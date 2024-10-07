@@ -2,8 +2,9 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.ArrayDeque;
+import java.util.InputMismatchException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenizerTest {
 
@@ -109,5 +110,45 @@ public class TokenizerTest {
             assertEquals(expected[i], token);
             i++;
         }
+    }
+
+    @Test
+    public void unrecognisedCharacter(){
+        String expression = "1 + 3 # 4";
+        String expectedMessage = "Unrecognized character: #";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                Tokenizer.tokenize(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void unrecognisedCharacterInNumber(){
+        String expression = "sin(1.3?4 )";
+        String expectedMessage = "Unrecognized character: ?";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                Tokenizer.tokenize(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void unrecognisedCharacterInWord(){
+        String expression = "cats^number + 7";
+        String expectedMessage = "Unrecognized character: ^";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                Tokenizer.tokenize(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void incorrectNumberFormat(){
+        String expression = "cats + sin(1.2.300)";
+        String expectedMessage = "Incorrect number format: 1.2.300";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                Tokenizer.tokenize(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
     }
 }
