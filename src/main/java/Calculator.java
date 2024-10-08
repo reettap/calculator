@@ -10,7 +10,7 @@ public class Calculator {
 
     public Calculator() {
         this.variables  = new HashMap<String, String>();
-        this.variables.put("ans", "0");
+        this.variables.put("ans", "");
     }
 
     public String calculate(String expression) throws NoSuchElementException, ArithmeticException {
@@ -41,18 +41,26 @@ public class Calculator {
             throw new InputMismatchException("Variable assignment should only have a single '='");
         }
 
-        String variableName = parts[0].strip();
+        String variableName, value;
+
+        // =a or a= will assign the most recent result to a
+        if (parts[0].strip() == "") {
+            variableName = parts[1].strip();
+            value = this.calculate("ans");
+        } else if (parts[1].strip() == "") {
+            variableName = parts[0].strip();
+            value = this.calculate("ans");
+        } else {
+            variableName = parts[0].strip();
+            value = this.calculate(parts[1]);
+        }
+
         // throw exception if variable name is not appropriate
         Tokenizer.validateVariableName(variableName);
 
-        // =a or a= will assign the most recent result to a
-        String result = parts.length == 1
-                ? this.calculate("ans")
-                : this.calculate(parts[1]);
+        this.variables.put(variableName, value);
 
-        this.variables.put(variableName, result);
-
-        return variableName + ": " + result;
+        return variableName + ": " + value;
     }
 
     public String variablesList() {

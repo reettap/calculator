@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.InputMismatchException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CalculatorTest {
 
@@ -85,5 +87,34 @@ public class CalculatorTest {
         assertEquals(expected, result, 0.001);
     }
 
+    @Test
+    public void addingAndListingVariables(){
+        Calculator c = new Calculator();
 
+        c.addVariable("cats = 3");
+        c.addVariable("dogs = cats *5");
+        c.calculate("cats + dogs / 3");
+        c.addVariable("=GOATS");
+        c.calculate("66-5");
+        c.addVariable("elephants  =  ");
+
+        String variables = c.variablesList();
+
+        assertTrue(variables.contains("cats: 3"));
+        assertTrue(variables.contains("dogs: 15"));
+        assertTrue(variables.contains("GOATS: 8"));
+        assertTrue(variables.contains("elephants: 61"));
+        assertTrue(variables.contains("ans: 61"));
+
+    }
+
+    @Test
+    public void incorrectVariableAssignment(){
+        Calculator c = new Calculator();
+        String expectedMessage = "Variable assignment should only have a single '='";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                c.addVariable("cats = 3 = 0");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
 }
