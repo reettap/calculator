@@ -20,16 +20,16 @@ public class Tokenizer {
             if (isUnaryMinus(position, expression, tokens)) {
                 readUnaryMinus(tokens);
                 position += 1;
-            } else if (numberCharacters.indexOf(currentChar) != -1){
+            } else if (isIn(currentChar, numberCharacters)){
                 // this character starts a number
                 position += readNumber(position, expression, tokens);
             }
-            else if (symbolCharacters.indexOf(currentChar) != -1) {
+            else if (isIn(currentChar, symbolCharacters)) {
                 // this is a single symbol that we can immediately turn into a token
                 readSymbol(currentChar, tokens);
                 position += 1;
             }
-            else if (variableCharacters.indexOf(currentChar) != -1) {
+            else if (isIn(currentChar, variableCharacters)) {
                 // this character starts a word: either a variable or function name
                 position += readWord(position, expression, tokens);
             } else if (currentChar == ' '){
@@ -63,9 +63,9 @@ public class Tokenizer {
         // push end index forward until the next character is not a character allowed in a number
         while (end<expression.length()){ // number can end to the end of the expression
             char nextCharacter = expression.charAt(end);
-            if (numberCharacters.indexOf(nextCharacter) != -1) {
+            if (isIn(nextCharacter, numberCharacters)) {
                 end += 1;
-            } else if (symbolCharacters.indexOf(nextCharacter) != -1 || variableCharacters.indexOf(nextCharacter) != -1 || nextCharacter == ' '){
+            } else if (isIn(nextCharacter, symbolCharacters) || isIn(nextCharacter, variableCharacters) || nextCharacter == ' '){
                 // number can be stopped by a symbol or variable character or a whitespace
                 break;
             } else {
@@ -91,9 +91,9 @@ public class Tokenizer {
         // push end index forward until the next character is not a character allowed in variable name
         while (end<expression.length()){ // word can end to the end of the expression
             char nextCharacter = expression.charAt(end);
-            if (variableCharacters.indexOf(nextCharacter) != -1 || numberCharacters.indexOf(nextCharacter) != -1) {
+            if (isIn(nextCharacter, variableCharacters) || isIn(nextCharacter, numberCharacters)) {
                 end += 1;
-            } else if (symbolCharacters.indexOf(nextCharacter) != -1 || nextCharacter == ' '){
+            } else if (isIn(nextCharacter, symbolCharacters) || nextCharacter == ' '){
                 // word can be stopped by a symbol or a whitespace
                 break;
             } else {
@@ -132,21 +132,25 @@ public class Tokenizer {
         }
 
         Token latest = tokens.peekLast();
-        if (latest.isOperator() && latest.type != Type.RIGHT_PARENTHESIS) {
+        if (latest.isOperator() && latest.getType() != Type.RIGHT_PARENTHESIS) {
             return true; // The latest token has been an operator, but not closing parenthesis
         }
 
         return false;
     }
 
+    private static boolean isIn(char c, String chars) {
+        return chars.indexOf(c) != -1;
+    }
+
     public static void validateVariableName(String variable) throws InputMismatchException{
-        if (variable.length() == 0 || variableCharacters.indexOf(variable.charAt(0)) == -1) {
+        if (variable.length() == 0 || !isIn(variable.charAt(0), variableCharacters)) {
             throw new InputMismatchException("The first character of the variable must be an alphabet character or a dot");
         }
 
         for (int i = 1; i < variable.length(); i++) {
             char c = variable.charAt(i);
-            if (variableCharacters.indexOf(c) == -1 && numberCharacters.indexOf(c) == -1) {
+            if (!isIn(c, variableCharacters) && !isIn(c, numberCharacters)) {
                 throw new InputMismatchException("Variable name can not contain this character: " + c);
             }
         }
