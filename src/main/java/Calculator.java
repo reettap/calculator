@@ -13,7 +13,7 @@ public class Calculator {
         this.variables.put("ans", "");
     }
 
-    public String calculate(String expression) throws NoSuchElementException, ArithmeticException {
+    public String calculate(String expression) throws NoSuchElementException, ArithmeticException, IllegalStateException {
         // special case: empty expression
         if (expression == "") {
             return "";
@@ -33,24 +33,24 @@ public class Calculator {
         return result;
     }
 
-    public String addVariable(String expression) throws InputMismatchException{
-        // this is already recognised as a variable assignment from the equals
+    public String addVariable(String expression) throws NoSuchElementException, ArithmeticException, IllegalStateException {
+        // this expression is already recognised as a variable assignment from the equals
         String[] parts = expression.split("=");
 
         if (parts.length>2) {
             throw new InputMismatchException("Variable assignment should only have a single '='");
         }
 
-        String variableName, value;
-
         // =a or a= will assign the most recent result to a
-        if (parts[0].strip() == "") {
-            variableName = parts[1].strip();
-            value = this.calculate("ans");
-        } else if (parts[1].strip() == "") {
+        String variableName, value;
+        if (parts.length == 1 || parts[1].strip() == "") {
             variableName = parts[0].strip();
             value = this.calculate("ans");
+        } else if (parts[0].strip() == "") {
+            variableName = parts[1].strip();
+            value = this.calculate("ans");
         } else {
+            // a regular assignment
             variableName = parts[0].strip();
             value = this.calculate(parts[1]);
         }

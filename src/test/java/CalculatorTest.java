@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,6 +71,23 @@ public class CalculatorTest {
     }
 
     @Test
+    public void mismatchedParenthesis(){
+        Calculator c = new Calculator();
+
+        String expectedMessage = "Mismatched parenthesis, expecting (";
+        Exception e = assertThrows(IllegalStateException.class, () -> {
+                c.calculate("(3+3)*6) /7");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
+        expectedMessage = "Mismatched parenthesis, expecting )";
+         e = assertThrows(IllegalStateException.class, () -> {
+                c.calculate("()(()()");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
     public void functions(){
         Calculator c = new Calculator();
         String expression = "min(3 2) + sin(9)";
@@ -111,9 +129,49 @@ public class CalculatorTest {
     @Test
     public void incorrectVariableAssignment(){
         Calculator c = new Calculator();
+
         String expectedMessage = "Variable assignment should only have a single '='";
         Exception e = assertThrows(InputMismatchException.class, () -> {
                 c.addVariable("cats = 3 = 0");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
+        expectedMessage = "The first character of the variable must be an alphabet character or a dot";
+        e = assertThrows(InputMismatchException.class, () -> {
+                c.addVariable("3 = 1");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
+        expectedMessage = "Variable name can not contain this character: !";
+        e = assertThrows(InputMismatchException.class, () -> {
+                c.addVariable("GHOSTS!!! = 999");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void reservedVariableName(){
+        Calculator c = new Calculator();
+        String expectedMessage = "Variable name can not be a reserved function name: sin";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                c.addVariable("sin = 3.14159");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void variableDoesntExist(){
+        Calculator c = new Calculator();
+        c.addVariable("cats = 3");
+        String expectedMessage = "Variable cat not found";
+
+        Exception e = assertThrows(NoSuchElementException.class, () -> {
+                c.calculate("cat + 7");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
+        e = assertThrows(NoSuchElementException.class, () -> {
+                c.addVariable("dogs = cat + 7");
         });
         assertTrue(e.getMessage().contains(expectedMessage));
     }

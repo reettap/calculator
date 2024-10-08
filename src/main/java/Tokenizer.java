@@ -150,6 +150,10 @@ public class Tokenizer {
                 throw new InputMismatchException("Variable name can not contain this character: " + c);
             }
         }
+
+        if (functionNames.contains(variable)){
+            throw new InputMismatchException("Variable name can not be a reserved function name: " + variable);
+        }
     }
 }
 
