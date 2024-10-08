@@ -1,16 +1,16 @@
 # Testing Document
 
-(add code coverage report)  
+JaCoCo code coverage report:
+![JaCoCo report](jacoco_report.png)
+ 
 (Overview of the testing)  
 (On invalid input)  
 (What was tested: the three phases, token and end-to-end)  
-(What was excluded: CalculatorUI)  
+(What was excluded: CalculatorUI, Main)  
 
 ## Running the Tests
 gradle test  
 generating code coverage report  
-
-
 
 
 ## Unit tests
