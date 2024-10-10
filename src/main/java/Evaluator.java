@@ -63,10 +63,21 @@ public class Evaluator {
         }
     }
 
+    public static double getOperand(ArrayDeque<Token> stack) {
+        if (stack.isEmpty()) {
+            throw new ArithmeticException("The calculation didn't yield a result. Not enough values for the given operators!");
+        }
+        return parseDouble(stack.pop().getRaw());
+    }
+
     private static String getResult(ArrayDeque<Token> stack) throws ArithmeticException{
         // stack should only have one number in the end
-        if (stack.size() != 1 || stack.peek().getType()!=Type.NUMBER) {
-            throw new ArithmeticException("The calculation didn't yield a result");
+        if (stack.size() == 0) {
+            // for example from "" or "()(())"
+            return "";
+        } else if (stack.size() > 1) {
+            // values left in the stack, i.e. too many values, too few operators
+            throw new ArithmeticException("The calculation didn't yield a result. Too many values for the given operators!");
         }
         Token result = stack.pop();
         return result.getRaw();
@@ -74,8 +85,8 @@ public class Evaluator {
 
     private static void executeSum(ArrayDeque<Token> stack) {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //calculate sum
         String result = (o1 + o2)+"";
         //push the result back in the stack
@@ -84,8 +95,8 @@ public class Evaluator {
 
     private static void executeSubtraction(ArrayDeque<Token> stack) {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //calculate difference
         String result = (o1 - o2)+"";
         //push the result back in the stack
@@ -94,7 +105,7 @@ public class Evaluator {
 
     private static void executeUnaryMinus(ArrayDeque<Token> stack) {
         // take one operand
-        double o = parseDouble(stack.pop().getRaw());
+        double o = getOperand(stack);
         // negate
         String result = -o + "";
         // push the result back in stack
@@ -103,8 +114,8 @@ public class Evaluator {
 
     private static void executeProduct(ArrayDeque<Token> stack) {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //calculate product
         String result = (o1 * o2)+"";
         //push the result back in the stack
@@ -113,8 +124,8 @@ public class Evaluator {
 
     private static void executeDivision(ArrayDeque<Token> stack) throws ArithmeticException {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //no division by zero allowed
         if (o2 == 0) {
             throw new ArithmeticException("Dividing by zero");
@@ -136,8 +147,8 @@ public class Evaluator {
 
     private static void executeMin(ArrayDeque<Token> stack) {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //calculate min
         String result = Math.min(o1, o2)+"";
         //push the result back in the stack
@@ -146,8 +157,8 @@ public class Evaluator {
 
     private static void executeMax(ArrayDeque<Token> stack) {
         // take two operands
-        double o2 = parseDouble(stack.pop().getRaw());
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o2 = getOperand(stack);
+        double o1 = getOperand(stack);
         //calculate min
         String result = Math.max(o1, o2)+"";
         //push the result back in the stack
@@ -156,7 +167,10 @@ public class Evaluator {
 
     private static void executeSqrt(ArrayDeque<Token> stack) {
         // take one operand
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o1 = getOperand(stack);
+        if (o1 < 0) {
+            throw new ArithmeticException("Square root is not defined for negative numbers");
+        }
         //calculate square root
         String result = Math.sqrt(o1)+"";
         //push the result back in the stack
@@ -165,13 +179,10 @@ public class Evaluator {
 
     private static void executeSin(ArrayDeque<Token> stack) {
         // take one operand
-        double o1 = parseDouble(stack.pop().getRaw());
+        double o1 = getOperand(stack);
         //calculate square root
         String result = Math.sin(o1)+"";
         //push the result back in the stack
         stack.push(new Value(Type.NUMBER, result));
     }
-
-
-
 }

@@ -1,4 +1,7 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
@@ -37,6 +40,28 @@ public class CalculatorTest {
         String expression = " -2 + -3*- 3";
         String result = c.calculate(expression);
         assertEquals("7", result);
+    }
+
+    @Test
+    public void negativeSquareRoot(){
+        Calculator c = new Calculator();
+        String expression = "sqrt(-1)";
+        String expectedMessage = "Square root is not defined for negative numbers";
+        Exception e = assertThrows(ArithmeticException.class, () -> {
+                c.calculate(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void divisionByZero(){
+        Calculator c = new Calculator();
+        String expression = "5/0";
+        String expectedMessage = "Dividing by zero";
+        Exception e = assertThrows(ArithmeticException.class, () -> {
+                c.calculate(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
     }
 
     @Test
@@ -87,22 +112,19 @@ public class CalculatorTest {
         assertTrue(e.getMessage().contains(expectedMessage));
     }
 
-    @Test
-    public void functions(){
+    @ParameterizedTest
+    @CsvSource({
+            "min(1.4 (-4)), -4",
+            "max(1.4 (-4)), 1.4",
+            "sin 0, 0",
+            "sqrt(9.0 + sin(0)), 3",
+            "min(3 2) + sin(9), 2.4121184852",
+            "max(1 9) + sqrt(9.9), 12.1464265445"
+    })
+    public void functions(String expression, double expected){
         Calculator c = new Calculator();
-        String expression = "min(3 2) + sin(9)";
         double result = Double.parseDouble(c.calculate(expression));
-        double expected = 2.4121184852;
-        assertEquals(expected, result, 0.001);
-    }
-
-    @Test
-    public void functions2(){
-        Calculator c = new Calculator();
-        String expression = "max(1 9) + sqrt(9.9)";
-        double result = Double.parseDouble(c.calculate(expression));
-        double expected = 12.1464265445;
-        assertEquals(expected, result, 0.001);
+        assertEquals(expected, result, 0.0001);
     }
 
     @Test
@@ -150,16 +172,6 @@ public class CalculatorTest {
     }
 
     @Test
-    public void reservedVariableName(){
-        Calculator c = new Calculator();
-        String expectedMessage = "Variable name can not be a reserved function name: sin";
-        Exception e = assertThrows(InputMismatchException.class, () -> {
-                c.addVariable("sin = 3.14159");
-        });
-        assertTrue(e.getMessage().contains(expectedMessage));
-    }
-
-    @Test
     public void variableDoesntExist(){
         Calculator c = new Calculator();
         c.addVariable("cats = 3");
@@ -175,4 +187,57 @@ public class CalculatorTest {
         });
         assertTrue(e.getMessage().contains(expectedMessage));
     }
+
+    @ParameterizedTest
+    @ValueSource(strings={
+            "min=3",
+            "min",
+            "max = 4*3*2",
+            "=sqrt",
+            "sin = 1"
+    })
+    public void reservedVariableName(String expression) {
+        Calculator c = new Calculator();
+        String expectedMessage = "Variable name can not be a reserved function name";
+        Exception e = assertThrows(InputMismatchException.class, () -> {
+                c.addVariable(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={
+            "2 3 10 + 7",
+            "3 4",
+            "4 +7 9.3 min(6 8)*3*2",
+            "min( 2 3 4 )",
+            "5 / 3 .141"
+    })
+    public void tooManyOperands(String expression) {
+        Calculator c = new Calculator();
+        String expectedMessage = "The calculation didn't yield a result. Too many values for the given operators!";
+        Exception e = assertThrows(ArithmeticException.class, () -> {
+                c.calculate(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={
+            "2++",
+            "/6 ",
+            "min(6)*3*2",
+            "min( -2)",
+            "sin(1 ++ 2)",
+            "2-+3"
+    })
+    public void tooManyOperators(String expression) {
+        Calculator c = new Calculator();
+        String expectedMessage = "The calculation didn't yield a result. Not enough values for the given operators!";
+        Exception e = assertThrows(ArithmeticException.class, () -> {
+                c.calculate(expression);
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+    }
+
 }
