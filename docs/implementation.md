@@ -61,6 +61,6 @@ the encountered error is.
 LLM:s have not been utilized in this project.
 
 ## References
-https://en.wikipedia.org/wiki/Shunting_yard_algorithm
-https://mathcenter.oxford.emory.edu/site/cs171/shuntingYardAlgorithm/
-https://blog.devgenius.io/problems-with-a-shunting-yard-algorithm-95cc462dc750
+https://en.wikipedia.org/wiki/Shunting_yard_algorithm  
+https://mathcenter.oxford.emory.edu/site/cs171/shuntingYardAlgorithm/  
+https://blog.devgenius.io/problems-with-a-shunting-yard-algorithm-95cc462dc750  
