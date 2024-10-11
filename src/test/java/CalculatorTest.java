@@ -89,12 +89,25 @@ public class CalculatorTest {
     @Test
     public void veryLongExpression() {
         Calculator c = new Calculator();
-        String expression = "40/(1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56+(" +
-                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56)+(" +
-                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56)+(" +
-                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56))";
+        String expression = "40/(1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3)+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3)+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3))";
         double result = Double.parseDouble(c.calculate(expression));
         double expected = 1;
+        assertEquals(expected, result, 0.001);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "4-5-6-7, -14",
+            "1-3+4, 2",
+            "6/3/2, 1",
+            "6/3*3, 6"
+    })
+    public void precedenceTest(String expression, double expected){
+        Calculator c = new Calculator();
+        double result = Double.parseDouble(c.calculate(expression));
         assertEquals(expected, result, 0.001);
     }
 

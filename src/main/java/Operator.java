@@ -16,10 +16,6 @@ public class Operator extends Token {
         return false;
     }
 
-    /**
-     *
-     * @return get the relative priority of the operators
-     */
     private int getPriority() {
         switch (this.type) {
             case SUM, SUBTRACTION: return 2;
@@ -27,6 +23,17 @@ public class Operator extends Token {
             case UNARY_MINUS: return 4;
             default: return 0;
         }
+    }
+
+    private boolean isLeftAssociative() {
+        switch (this.type) {
+            case UNARY_MINUS: return false;
+            default: return true;
+        }
+    }
+
+    public boolean isLeftAssociativeAndSamePriority(Operator that) {
+        return isLeftAssociative() && this.getPriority() == that.getPriority();
     }
 
     /**

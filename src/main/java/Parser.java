@@ -46,12 +46,15 @@ public class Parser {
                 }
             }
             // if an operator + - * /:
-            // check if it has lower priority than the operator on top of the stack.
-            // pop the stack until the operator on top has lower precedence, add to output.
+            // check if it has lower priority than the operator on top of the stack,
+            // or same priority and is left-assodciative
+            // pop the stack and add to output until not true.
             // push the current operator in the stack
             else {
                 Operator operator = (Operator) token;
-                while (!operators.isEmpty() && operator.hasLowerPrecedenceThan(operators.peek())) {
+                while (!operators.isEmpty()
+                        && (operator.hasLowerPrecedenceThan(operators.peek())
+                            || operator.isLeftAssociativeAndSamePriority(operators.peek()))) {
                     output.add(operators.pop());
                 }
                 operators.push(operator);
