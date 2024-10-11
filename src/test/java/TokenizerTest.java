@@ -151,4 +151,31 @@ public class TokenizerTest {
         });
         assertTrue(e.getMessage().contains(expectedMessage));
     }
+
+
+    @Test
+    public void invalidExpression(){
+        // an expression that is fine to tokenize, but doesn't evaluate
+        String expression = "2a+4";
+        ArrayDeque<Token> result = Tokenizer.tokenize(expression);
+        Token[] expected = {
+                new Value(Type.NUMBER, "2"),
+                new Value(Type.VARIABLE, "a"),
+                new Operator(Type.SUM, "+"),
+                new Value(Type.NUMBER, "4")
+        };
+        assertOutputContent(expected, result);
+    }
+
+    @Test
+    public void invalidExpression2(){
+        // an expression that is fine to tokenize, but doesn't evaluate
+        String expression = "2-";
+        ArrayDeque<Token> result = Tokenizer.tokenize(expression);
+        Token[] expected = {
+                new Value(Type.NUMBER, "2"),
+                new Operator(Type.SUBTRACTION, "-"),
+        };
+        assertOutputContent(expected, result);
+    }
 }

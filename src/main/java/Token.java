@@ -32,11 +32,6 @@ public abstract class Token {
         return this.raw.equals(((Token) other).raw)
                 && this.type == ((Token) other).type;
     }
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(this.type, this.raw);
-    }
 }
 
 /**

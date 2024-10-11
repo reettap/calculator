@@ -27,10 +27,6 @@ public class Calculator {
      * @throws IllegalStateException if the expression contains mismatched parenthesis or numbers of operators and operands.
      */
     public String calculate(String expression) throws InputMismatchException, NoSuchElementException, ArithmeticException, IllegalStateException {
-        // special case: empty expression
-        if (expression == "") {
-            return "";
-        }
 
         // The three phases of computing the result:
         // tokenize

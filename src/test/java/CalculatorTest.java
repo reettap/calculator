@@ -87,6 +87,18 @@ public class CalculatorTest {
     }
 
     @Test
+    public void veryLongExpression() {
+        Calculator c = new Calculator();
+        String expression = "40/(1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56)+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56)+(" +
+                "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+-56))";
+        double result = Double.parseDouble(c.calculate(expression));
+        double expected = 1;
+        assertEquals(expected, result, 0.001);
+    }
+
+    @Test
     public void parenthesis(){
         Calculator c = new Calculator();
         String expression = "3.1*(6- -(6/7)) / (9/5)";
@@ -137,6 +149,7 @@ public class CalculatorTest {
         c.addVariable("=GOATS");
         c.calculate("66-5");
         c.addVariable("elephants  =  ");
+        c.addVariable("a1=");
 
         String variables = c.variablesList();
 
@@ -144,6 +157,7 @@ public class CalculatorTest {
         assertTrue(variables.contains("dogs: 15"));
         assertTrue(variables.contains("GOATS: 8"));
         assertTrue(variables.contains("elephants: 61"));
+        assertTrue(variables.contains("a1: 61"));
         assertTrue(variables.contains("ans: 61"));
 
     }
