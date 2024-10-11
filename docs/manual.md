@@ -142,3 +142,8 @@ The calculator will report following errors:
 - variable name can not be reserved function name
 - variable name has to be of the required format
 - variable assignment can only include one '='
+
+`note:` the calculator can recognize all valid expressions, 
+but due to the limitations of the Shunting Yard algorithm, 
+invalid expressions can yield erroneus results and might not 
+show an error.

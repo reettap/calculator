@@ -28,7 +28,7 @@ The end-to-end tests in `CalculatorTest` are the core form of testing in this pr
 
 All types of operators are tested in various combinations and expression lengths, with both proper 
 and poor formatting. Most of the expressions are the length one would expect 
-to be used in a calculator, but also empty expressions, short expressions, and very long (249 tokens) expression
+to be used in a calculator, but also empty expressions, short expressions, and very long (256 tokens) expression
 are included in the tests. For the valid expressions, the expression is fed to the calculator and 
 compared to the correct result.
 
