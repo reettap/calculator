@@ -76,8 +76,8 @@ Error: Dividing by zero
 - sine: sin(x)  
 - minimum: min(x y)  
 - maximum: max(x y)  
-`note! `  when function takes two arguments, they are separated by space. If the second 
-argument starts with a minus, it must be wrapped in parentheses: `min(-x (-y))`
+`note! `  when function takes two arguments, they are separated by space. If an 
+argument starts with a minus, it must be wrapped in parentheses: `min((-x) (-y))`
 
 ```
 > sin(8.8)

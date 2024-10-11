@@ -144,7 +144,8 @@ public class CalculatorTest {
             "sin 0, 0",
             "sqrt(9.0 + sin(0)), 3",
             "min(3 2) + sin(9), 2.4121184852",
-            "max(1 9) + sqrt(9.9), 12.1464265445"
+            "max(1 9) + sqrt(9.9), 12.1464265445",
+            "min((-5) (-6*1.1)), -6.6"
     })
     public void functions(String expression, double expected){
         Calculator c = new Calculator();
