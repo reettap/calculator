@@ -1,7 +1,11 @@
 
 import java.util.Scanner;
 
+/**
+ * Command line interface for the calculator
+ */
 public class CalculatorUI {
+
     public void run() {
         Scanner scanner = new Scanner(System.in);
         Calculator calculator = new Calculator();
@@ -58,7 +62,24 @@ public class CalculatorUI {
 
     private void printHelp() {
         System.out.println("To use the calculator, just write an expression and press enter!");
-        System.out.println("Supported operators: +-/*");
+        System.out.println("Supports basic arithmetics: +, -, * /");
+        System.out.println("Supports functions: min, max, sqrt, sin");
+        System.out.println("Examples:");
+        System.out.println("(2-4)*6+sin(7.8)/9");
+        System.out.println("-(min(3 6))");
+        System.out.println("-(max(3 (-9.6)))");
+        System.out.println("sin(9.9)");
+        System.out.println("-sqrt(27)");
+        System.out.println();
+        System.out.println("Variables:");
+        System.out.println("Variables start with an alphabet character a-z, lowercase or uppercase");
+        System.out.println("Variables can also contain numbers and dots");
+        System.out.println("The latest result is stored in special variable ans");
+        System.out.println("=a or a= will assign the most recent result to a");
+        System.out.println("Examples:");
+        System.out.println("cats = 7");
+        System.out.println("DOGS = cats+7");
+        System.out.println("= animals1");
         System.out.println();
         System.out.println(":h for help");
         System.out.println(":v to list variables");

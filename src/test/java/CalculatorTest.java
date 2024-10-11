@@ -216,7 +216,7 @@ public class CalculatorTest {
     public void tooManyOperands(String expression) {
         Calculator c = new Calculator();
         String expectedMessage = "The calculation didn't yield a result. Too many values for the given operators!";
-        Exception e = assertThrows(ArithmeticException.class, () -> {
+        Exception e = assertThrows(IllegalStateException.class, () -> {
                 c.calculate(expression);
         });
         assertTrue(e.getMessage().contains(expectedMessage));
@@ -234,7 +234,7 @@ public class CalculatorTest {
     public void tooManyOperators(String expression) {
         Calculator c = new Calculator();
         String expectedMessage = "The calculation didn't yield a result. Not enough values for the given operators!";
-        Exception e = assertThrows(ArithmeticException.class, () -> {
+        Exception e = assertThrows(IllegalStateException.class, () -> {
                 c.calculate(expression);
         });
         assertTrue(e.getMessage().contains(expectedMessage));

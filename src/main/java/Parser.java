@@ -1,9 +1,16 @@
 import java.util.ArrayDeque;
 
+/**
+ * Responsible for parsing the mathematical expressions
+ */
 public class Parser {
+    /**
+     * Takes an expression, and parses it using the shunting yard algorithm.
+     * @param tokens The list of the tokens representing the expression to be parsed.
+     * @return A list of tokens in the reverse polish notation.
+     * @throws IllegalStateException if the expression contains mismatched parenthesis.
+     */
     public static ArrayDeque<Token> parse(ArrayDeque<Token> tokens) throws IllegalStateException {
-        // use shunting yard algorithm to parse the expression
-
         // arraydeque for output
         ArrayDeque<Token> output = new ArrayDeque<>();
         // operator stack
@@ -11,8 +18,8 @@ public class Parser {
 
         // go through the tokens:
         for (Token token: tokens) {
-            // if a value, put into output queue
             if (token.isValue()) {
+                // a value goes straight into the output
                 output.add(token);
             } else if(token.getType() == Type.FUNCTION) {
                 // function gets just pushed in the stack

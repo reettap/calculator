@@ -1,5 +1,8 @@
 import java.util.Objects;
 
+/**
+ * Represents a token or an arithmetic expression
+ */
 public abstract class Token {
 
     String raw;
@@ -36,6 +39,9 @@ public abstract class Token {
     }
 }
 
+/**
+ * Represents the possible types of a Token
+ */
 enum Type {
     SUM,
     SUBTRACTION,

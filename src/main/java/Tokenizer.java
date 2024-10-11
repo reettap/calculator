@@ -3,6 +3,10 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 
+/**
+ * Responsible for tokenizing, i.e. splitting the given expression.
+ * Holds the information for recognizing and validating different token types.
+ */
 public class Tokenizer {
 
     static final String numberCharacters = "0123456789.";
@@ -10,6 +14,12 @@ public class Tokenizer {
     static final String variableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static final List<String> functionNames = Arrays.asList("min", "max", "sqrt", "sin");
 
+    /**
+     * Splits the given expression into a list of tokens in the order of the original expression.
+     * @param expression The expression to be split.
+     * @return An ArrayDeque of tokens in the order of the original expression.
+     * @throws InputMismatchException if the expression contains unrecognized characters or numbers in unparseable format.
+     */
     public static ArrayDeque<Token> tokenize(String expression) throws InputMismatchException {
         ArrayDeque<Token> tokens = new ArrayDeque<>();
 
@@ -43,6 +53,11 @@ public class Tokenizer {
         return tokens;
     }
 
+    /**
+     * resolves single characters to corresponding operator tokens.
+     * @param symbol Character representing the operator to resolve
+     * @param tokens List of tokens to which the new operator token is added.
+     */
     private static void readSymbol(char symbol, ArrayDeque<Token> tokens) {
         switch (symbol) {
             case '+': tokens.add(new Operator(Type.SUM, "+")); break;
@@ -54,10 +69,23 @@ public class Tokenizer {
         }
     }
 
+    /**
+     * Adds a unary minus token to the tokens
+     * @param tokens List of tokens to which the new operator token is added.
+     */
     private static void readUnaryMinus(ArrayDeque<Token> tokens) {
         tokens.add(new Operator(Type.UNARY_MINUS, "-"));
     }
 
+    /**
+     * Reads and converts the next number from the expression.
+     * Number is conveted and added to the list of tokens.
+     * @param start The index at which the number begins in the expression
+     * @param expression The expression from which the number is read.
+     * @param tokens List of tokens to which the new number token is added.
+     * @return length of the number read.
+     * @throws InputMismatchException if an unexpected character is encountered while reading the number.
+     */
     private static int readNumber(int start, String expression, ArrayDeque<Token> tokens) throws InputMismatchException{
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in a number
@@ -86,6 +114,15 @@ public class Tokenizer {
         return end - start;
     }
 
+    /**
+     * Reads and converts the next variable or function name from the expression.
+     * The name is resolved to either function name or variable, and added to the list of tokens.
+     * @param start The index at which the variable or function name begins in the expression
+     * @param expression The expression from which the variable or function name is read.
+     * @param tokens List of tokens to which the new variable or function name token is added.
+     * @return length of the variable or function name read.
+     * @throws InputMismatchException if an unexpected character is encountered while reading.
+     */
     private static int readWord(int start, String expression, ArrayDeque<Token> tokens) throws InputMismatchException {
         int end = start + 1;
         // push end index forward until the next character is not a character allowed in variable name
@@ -113,6 +150,14 @@ public class Tokenizer {
         return end - start;
     }
 
+    /**
+     * Recognizes whether the minus at the given location is a unary minus,
+     * or a subtraction operator.
+     * @param position The index of the minus within the expression
+     * @param expression The expression in which the minus is found
+     * @param tokens List of tokens so far to understand the context of the minus character.
+     * @return A boolean representing whether this minus is a unary minus.
+     */
     private static boolean isUnaryMinus(int position, String expression, ArrayDeque<Token> tokens) {
         // A minus that is a unary operator instead of subtraction,
         // such as -5 , -(a), (a) + -5, (3) + -(a)
@@ -139,10 +184,24 @@ public class Tokenizer {
         return false;
     }
 
+    /**
+     * Checks if the given character is in the string.
+     * @param c
+     * @param chars
+     * @return boolean representing whether the given character is in the string.
+     */
     private static boolean isIn(char c, String chars) {
         return chars.indexOf(c) != -1;
     }
 
+    /**
+     * Checks if the given string is a valid variable name:
+     * - The first character must be alpabet between a-z or a dot
+     * - The following characters are allowed to also be numbers.
+     * - Can not be a reserved function name.
+     * @param variable The variable name to be validated.
+     * @throws InputMismatchException if the given variable name is not valid.
+     */
     public static void validateVariableName(String variable) throws InputMismatchException{
         if (variable.length() == 0 || !isIn(variable.charAt(0), variableCharacters)) {
             throw new InputMismatchException("The first character of the variable must be an alphabet character or a dot");

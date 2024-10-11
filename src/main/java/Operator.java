@@ -1,3 +1,6 @@
+/**
+ * Represents a Token holding an operator.
+ */
 public class Operator extends Token {
 
     public Operator(Type type, String raw) {
@@ -13,6 +16,10 @@ public class Operator extends Token {
         return false;
     }
 
+    /**
+     *
+     * @return get the relative priority of the operators
+     */
     private int getPriority() {
         switch (this.type) {
             case SUM, SUBTRACTION: return 2;
@@ -22,7 +29,11 @@ public class Operator extends Token {
         }
     }
 
-
+    /**
+     * Check which operator has a lower precedence in an expression
+     * @param that the other operator to compare
+     * @return whether this has a lower precedence
+     */
     public boolean hasLowerPrecedenceThan(Operator that) {
         if (that == null) return false;
         return this.getPriority() < that.getPriority();
