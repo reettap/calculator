@@ -58,7 +58,7 @@ class, and each has a corresponding set of unit tests.
 
 `TokenizerTest` for the first stage that splits the string into tokens. 
 The test expressions are of varying length and contain all token types. 
-Each test expression is tokenized, and the result comapred to the expected list 
+Each test expression is tokenized, and the result compared to the expected list 
 of tokens. This also tests that an expression that cannot be evaluated 
 is tokenized all the same. This set of tests also includes tests for 
 all possible errors that can arise in the tokenizing stage: 
