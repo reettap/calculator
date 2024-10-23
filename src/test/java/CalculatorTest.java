@@ -12,6 +12,7 @@ public class CalculatorTest {
 
     @Test
     public void emptyExpression(){
+        // empty expression must return empty string
         Calculator c = new Calculator();
         String expression = "";
         String result = c.calculate(expression);
@@ -28,6 +29,7 @@ public class CalculatorTest {
 
     @Test
     public void advancedSum(){
+        // sum with integers, digits and unary minus
         Calculator c = new Calculator();
         String expression = "1.11 + 3.0 + -667 + 0";
         String result = c.calculate(expression);
@@ -36,6 +38,7 @@ public class CalculatorTest {
 
     @Test
     public void unaryMinus(){
+        // unary minus is recognised in different contexts
         Calculator c = new Calculator();
         String expression = " -2 + -3*- 3";
         String result = c.calculate(expression);
@@ -44,6 +47,7 @@ public class CalculatorTest {
 
     @Test
     public void negativeSquareRoot(){
+        // negative square root is not defined and must give a specific error
         Calculator c = new Calculator();
         String expression = "sqrt(-1)";
         String expectedMessage = "Square root is not defined for negative numbers";
@@ -55,6 +59,7 @@ public class CalculatorTest {
 
     @Test
     public void divisionByZero(){
+        // division by zero is not defined and must give a specific error
         Calculator c = new Calculator();
         String expression = "5/0";
         String expectedMessage = "Dividing by zero";
@@ -66,6 +71,7 @@ public class CalculatorTest {
 
     @Test
     public void simpleVariable(){
+        // simple variable assignment and reference
         Calculator c = new Calculator();
 
         String expression = "cats = 4";
@@ -79,6 +85,7 @@ public class CalculatorTest {
 
     @Test
     public void manyOperators(){
+        // the precedence of different operators is recognised
         Calculator c = new Calculator();
         String expression = "4*-3.3+7.7/2.99";
         double result = Double.parseDouble(c.calculate(expression));
@@ -88,6 +95,7 @@ public class CalculatorTest {
 
     @Test
     public void veryLongExpression() {
+        // A very long expression is evaluated without problems
         Calculator c = new Calculator();
         String expression = "40/(1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3+(" +
                 "1+2+3+4-5-6-7-1+2+3+-4-5-6-7--8+1+23+45+6+8-40-2--4-6*2-5-18+6*3)+(" +
@@ -106,6 +114,7 @@ public class CalculatorTest {
             "6/3*3, 6"
     })
     public void precedenceTest(String expression, double expected){
+        // precedence of different combinations of expressions
         Calculator c = new Calculator();
         double result = Double.parseDouble(c.calculate(expression));
         assertEquals(expected, result, 0.001);
@@ -113,6 +122,7 @@ public class CalculatorTest {
 
     @Test
     public void parenthesis(){
+        // parenthesis in defferent context is correctly interpreted
         Calculator c = new Calculator();
         String expression = "3.1*(6- -(6/7)) / (9/5)";
         double result = Double.parseDouble(c.calculate(expression));
@@ -122,6 +132,7 @@ public class CalculatorTest {
 
     @Test
     public void mismatchedParenthesis(){
+        // mismatched parenthesis must cause a specific error
         Calculator c = new Calculator();
 
         String expectedMessage = "Mismatched parenthesis, expecting (";
@@ -130,8 +141,18 @@ public class CalculatorTest {
         });
         assertTrue(e.getMessage().contains(expectedMessage));
 
+        e = assertThrows(IllegalStateException.class, () -> {
+                c.calculate(")");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
         expectedMessage = "Mismatched parenthesis, expecting )";
          e = assertThrows(IllegalStateException.class, () -> {
+                c.calculate("-(6 + 7)-4 *(5*(5/55)+sin(1)");
+        });
+        assertTrue(e.getMessage().contains(expectedMessage));
+
+        e = assertThrows(IllegalStateException.class, () -> {
                 c.calculate("()(()()");
         });
         assertTrue(e.getMessage().contains(expectedMessage));
@@ -153,6 +174,7 @@ public class CalculatorTest {
             "min((9+3) (5*2)), 10"
     })
     public void functions(String expression, double expected){
+        // functions work correctly in various combinations
         Calculator c = new Calculator();
         double result = Double.parseDouble(c.calculate(expression));
         assertEquals(expected, result, 0.0001);
@@ -160,6 +182,7 @@ public class CalculatorTest {
 
     @Test
     public void addingAndListingVariables(){
+        // adding variables works as expected
         Calculator c = new Calculator();
 
         c.addVariable("cats = 3");
@@ -183,6 +206,7 @@ public class CalculatorTest {
 
     @Test
     public void incorrectVariableAssignment(){
+        // incorrect variable assignment must cause a specific error
         Calculator c = new Calculator();
 
         String expectedMessage = "Variable assignment should only have a single '='";
@@ -206,6 +230,7 @@ public class CalculatorTest {
 
     @Test
     public void variableDoesntExist(){
+        // reference to nonexistent variable must cause a specific error
         Calculator c = new Calculator();
         c.addVariable("cats = 3");
         String expectedMessage = "Variable cat not found";
@@ -230,6 +255,7 @@ public class CalculatorTest {
             "sin = 1"
     })
     public void reservedVariableName(String expression) {
+        // a funcition name cannot be used as a variable name
         Calculator c = new Calculator();
         String expectedMessage = "Variable name can not be a reserved function name";
         Exception e = assertThrows(InputMismatchException.class, () -> {
@@ -247,6 +273,7 @@ public class CalculatorTest {
             "5 / 3 .141"
     })
     public void tooManyOperands(String expression) {
+        // when there are too many operands to match to the operators, a specific error is thrown
         Calculator c = new Calculator();
         String expectedMessage = "The calculation didn't yield a result. Too many values for the given operators!";
         Exception e = assertThrows(IllegalStateException.class, () -> {
@@ -265,6 +292,7 @@ public class CalculatorTest {
             "2-+3"
     })
     public void tooManyOperators(String expression) {
+        // when there aren't enough operands to match to the operators, a specific error is thrown
         Calculator c = new Calculator();
         String expectedMessage = "The calculation didn't yield a result. Not enough values for the given operators!";
         Exception e = assertThrows(IllegalStateException.class, () -> {
