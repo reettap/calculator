@@ -48,8 +48,11 @@ DOGS = cats+7
 ## Calculator Functionality  
 
 ### basic arithmetics
-- +, -, *, /
-- ()
+- sum +
+- subtraction -
+- product *
+- division /
+- parenthesis ()
 ```
 > 3.5-9
 answer: -5.5
@@ -77,7 +80,8 @@ Error: Dividing by zero
 - minimum: min(x y)  
 - maximum: max(x y)  
 `note! `  when function takes two arguments, they are separated by space. If an 
-argument starts with a minus, it must be wrapped in parentheses: `min((-x) (-y))`
+argument is an expression with more than a single value or variable, or
+starts with a minus, it must be wrapped in parentheses: `min((-x) (y+5))`
 
 ```
 > sin(8.8)
@@ -146,4 +150,4 @@ The calculator will report following errors:
 `note:` the calculator can recognize all valid expressions, 
 but due to the limitations of the Shunting Yard algorithm, 
 invalid expressions can yield erroneus results and might not 
-show an error.
+show an error. For example `2 3 +` is considered a valid expression.

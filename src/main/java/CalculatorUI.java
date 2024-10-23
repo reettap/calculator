@@ -68,6 +68,7 @@ public class CalculatorUI {
         System.out.println("(2-4)*6+sin(7.8)/9");
         System.out.println("-(min(3 6))");
         System.out.println("-(max(3 (-9.6)))");
+        System.out.println("min((3+9) (5/2)))");
         System.out.println("sin(9.9)");
         System.out.println("-sqrt(27)");
         System.out.println();
